@@ -29,12 +29,18 @@ def get_exif_date(image_path):
 def organize_photos_in_current_folder():
     """
     Organizza le foto nella cartella corrente in sottocartelle basate sulla data di scatto.
-    Crea una sottocartella "FotoOrganizzate" per i risultati.
+    Chiede all'utente dove creare la cartella "FotoOrganizzate".
     """
-    # Ottiene il percorso della cartella in cui si trova lo script
     source_folder = os.getcwd()
-    # Definisce la cartella di destinazione come una sottocartella di quella attuale
-    destination_base_folder = os.path.join(source_folder, "FotoOrganizzate")
+
+    # Chiedi all'utente il percorso di destinazione
+    user_input = input(
+        "Inserisci il percorso dove creare la cartella 'FotoOrganizzate' (premi Invio per usare la cartella corrente):\n> "
+    ).strip()
+    if user_input:
+        destination_base_folder = os.path.join(user_input, "FotoOrganizzate")
+    else:
+        destination_base_folder = os.path.join(source_folder, "FotoOrganizzate")
 
     print(f"La cartella di origine è: '{source_folder}'")
     print(f"Le foto organizzate verranno spostate in: '{destination_base_folder}'")
@@ -46,7 +52,7 @@ def organize_photos_in_current_folder():
         file_path = os.path.join(source_folder, filename)
         # Assicurati di non includere la cartella di destinazione stessa o lo script
         if os.path.isfile(file_path) and \
-            filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff')) and \
+            filename.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp', '.tiff', '.svg', '.mp4', '.mkv', '.avi', 'mov')) and \
             file_path != os.path.join(source_folder, os.path.basename(__file__)): # Evita di elaborare lo script stesso
             image_files.append(filename)
 
